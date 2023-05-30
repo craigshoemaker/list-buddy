@@ -3,47 +3,41 @@
 <head>
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width,initial-scale=1'>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
-  <title>List Buddy</title>
+  	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
+  	<title>List Buddy by @craigshoemaker</title>
   <style>
       button {
         display: pointer;
       }
       @media (max-width: 600px) {
         
-        .list-tools-prefix,
-        .list-tools-commands {
+        .tools {
           display: block;
         }
         
-        .list-tools-prefix span,
-        .list-tools-commands span {
+        .tools span {
           display: none;
         }
       }
   </style>
   </head>
 <body class="container">
-  
-  <textarea name="input" id="input" style="margin: 1em 0; width: 80%; height: 10em;" placeholder="Enter a list of items here"></textarea>
-<div style="margin: 0 0 1em 0">
-</style>
-<div class="list-tools-prefix" style="display: inline;">
-    <button id="circleButton">•</button>
-    <button id="arrowButton">→</button>
-    <button id="dashButton">-</button>
-    <span> | </span>
-</div>
-<div class="list-tools-commands" style="display: inline;">
-    <button id="shortToLongButton">Short to Long</button>
-    <button id="longToShortButton">Long to Short</button>
-    <span> | </span>
-    <button id="clearButton">Clear</button>
-</div>
-<div style="margin: 1em 0;">
-<textarea name="" id="output"  style="width: 80%; height: 10em;" onclick="this.select()"></textarea>
-</div>
-  
+    <textarea name="input" id="input" class="textarea" placeholder="Enter a list of items here"></textarea>
+    <div class="list-tools-prefix tools">
+      <button id="circleButton" class="button">•</button>
+      <button id="arrowButton" class="button">→</button>
+      <button id="dashButton" class="button">-</button>
+      <span> | </span>
+    </div>
+    <div class="list-tools-commands tools">
+      <button id="shortToLongButton" class="button">Short to Long</button>
+      <button id="longToShortButton" class="button">Long to Short</button>
+      <span> | </span>
+      <button id="clearButton" class="button">Clear</button>
+    </div>
+    <div>
+      <textarea name="output" id="output" class="textarea" onclick="this.select()"></textarea>
+    </div>
   </body>
   
   <script>
@@ -102,7 +96,6 @@
         $output.value = "";
       });
 
-
-      })();
+    })();
   </script>
 </html>
