@@ -1,101 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset='utf-8'>
-	<meta name='viewport' content='width=device-width,initial-scale=1'>
-  	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
-  	<title>List Buddy by @craigshoemaker</title>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
+  <title>List Buddy by @craigshoemaker</title>
   <style>
-      button {
-        display: pointer;
+    button {
+      display: pointer;
+    }
+
+    .tools {
+      display: inline-block;
+    }
+
+    .tools button {
+      border: solid 1px #ccc !important;
+    }
+
+    @media (max-width: 600px) {
+
+      .tools {
+        display: block;
       }
-      @media (max-width: 600px) {
-        
-        .tools {
-          display: block;
-        }
-        
-        .tools span {
-          display: none;
-        }
+
+      .tools span {
+        display: none;
       }
+
+      .list-tools-commands {
+        margin: 1em 0;
+      }
+    }
   </style>
-  </head>
+</head>
+
 <body class="container">
-    <textarea name="input" id="input" class="textarea" placeholder="Enter a list of items here"></textarea>
-    <div class="list-tools-prefix tools">
-      <button id="circleButton" class="button">•</button>
-      <button id="arrowButton" class="button">→</button>
-      <button id="dashButton" class="button">-</button>
-      <span> | </span>
-    </div>
-    <div class="list-tools-commands tools">
-      <button id="shortToLongButton" class="button">Short to Long</button>
-      <button id="longToShortButton" class="button">Long to Short</button>
-      <span> | </span>
-      <button id="clearButton" class="button">Clear</button>
-    </div>
-    <div>
-      <textarea name="output" id="output" class="textarea" onclick="this.select()"></textarea>
-    </div>
-  </body>
-  
-  <script>
-    (()=> {
-      const $input = document.getElementById("input");
-      const $output = document.getElementById("output");
+  <div class="mb-4"><textarea name="input" id="input" class="textarea"
+      placeholder="Enter a list of items here"></textarea></div>
+  <div class="list-tools-prefix tools">
+    <button id="circleButton" class="button is-light">•</button>
+    <button id="arrowButton" class="button is-light">→</button>
+    <button id="dashButton" class="button is-light">-</button>
+    <span> | </span>
+  </div>
+  <div class="list-tools-commands tools">
+    <button id="shortToLongButton" class="button is-light">Short to Long</button>
+    <button id="longToShortButton" class="button is-light">Long to Short</button>
+    <span> | </span>
+    <button id="clearButton" class="button is-light">Clear</button>
+  </div>
+  <div class="mt-4">
+    <textarea name="output" id="output" class="textarea" onclick="this.select()"></textarea>
+  </div>
+</body>
 
-      const $circleButton = document.getElementById("circleButton");
-      const $arrowButton = document.getElementById("arrowButton");
-      const $dashButton = document.getElementById("dashButton");
+<script>
+  (() => {
+    const $input = document.getElementById("input");
+    const $output = document.getElementById("output");
 
-      $circleButton.addEventListener("click", () => addPrefix('circle'));
-      $arrowButton.addEventListener("click", () => addPrefix('arrow'));
-      $dashButton.addEventListener("click", () => addPrefix('dash'));
+    const $circleButton = document.getElementById("circleButton");
+    const $arrowButton = document.getElementById("arrowButton");
+    const $dashButton = document.getElementById("dashButton");
 
-      const $shortToLongButton = document.getElementById("shortToLongButton");
-      const $longToShortButton = document.getElementById("longToShortButton");
+    $circleButton.addEventListener("click", () => addPrefix('circle'));
+    $arrowButton.addEventListener("click", () => addPrefix('arrow'));
+    $dashButton.addEventListener("click", () => addPrefix('dash'));
 
-      $shortToLongButton.addEventListener("click", () => reorder(true));
-      $longToShortButton.addEventListener("click", () => reorder(false));
+    const $shortToLongButton = document.getElementById("shortToLongButton");
+    const $longToShortButton = document.getElementById("longToShortButton");
 
-      let data = "";
-      let updated = "";
+    $shortToLongButton.addEventListener("click", () => reorder(true));
+    $longToShortButton.addEventListener("click", () => reorder(false));
 
-      $input.addEventListener("blur", (e) => {
-        data = e.currentTarget.value;
-        if(data.length === 0){
-          $output.value = "";
-        }
-      });
+    let data = "";
+    let updated = "";
 
-      const prefixes = {
-        circle: "•",
-        arrow: "→",
-        dash: "-"
-      };
-
-      function reorder(isAsc) {
-        let source = updated.length > 0 ? updated : data;
-        let lines = source.split("\n");
-        lines.sort((a, b) => {
-          return isAsc ? a.length - b.length : b.length - a.length;
-        });
-
-        $output.value = lines.join("\n");
-      }
-
-      function addPrefix(prefix) {
-        let lines = data.split("\n");
-        const pre = prefixes[prefix];
-        updated = pre + " " + lines.join(`\n${pre} `);
-        $output.value = updated;
-      }
-
-      document.getElementById("clearButton").addEventListener("click", () => {
+    $input.addEventListener("blur", (e) => {
+      data = e.currentTarget.value;
+      if (data.length === 0) {
         $output.value = "";
+      }
+    });
+
+    const prefixes = {
+      circle: "•",
+      arrow: "→",
+      dash: "-"
+    };
+
+    function reorder(isAsc) {
+      let source = updated.length > 0 ? updated : data;
+      let lines = source.split("\n");
+      lines.sort((a, b) => {
+        return isAsc ? a.length - b.length : b.length - a.length;
       });
 
-    })();
-  </script>
+      $output.value = lines.join("\n");
+    }
+
+    function addPrefix(prefix) {
+      let lines = data.split("\n");
+      const pre = prefixes[prefix];
+      updated = pre + " " + lines.join(`\n${pre} `);
+      $output.value = updated;
+    }
+
+    document.getElementById("clearButton").addEventListener("click", () => {
+      $output.value = "";
+    });
+
+  })();
+</script>
+
 </html>
