@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
+  <title>List Buddy</title>
+  <style>
+      button {
+        display: pointer;
+      }
+      @media (max-width: 600px) {
+        
+        .list-tools-prefix,
+        .list-tools-commands {
+          display: block;
+        }
+        
+        .list-tools-prefix span,
+        .list-tools-commands span {
+          display: none;
+        }
+      }
+  </style>
+  </head>
+<body class="container">
+  
+  <textarea name="input" id="input" style="margin: 1em 0; width: 80%; height: 10em;" placeholder="Enter a list of items here"></textarea>
+<div style="margin: 0 0 1em 0">
+</style>
+<div class="list-tools-prefix" style="display: inline;">
+    <button id="circleButton">•</button>
+    <button id="arrowButton">→</button>
+    <button id="dashButton">-</button>
+    <span> | </span>
+</div>
+<div class="list-tools-commands" style="display: inline;">
+    <button id="shortToLongButton">Short to Long</button>
+    <button id="longToShortButton">Long to Short</button>
+    <span> | </span>
+    <button id="clearButton">Clear</button>
+</div>
+<div style="margin: 1em 0;">
+<textarea name="" id="output"  style="width: 80%; height: 10em;" onclick="this.select()"></textarea>
+</div>
+  
+  </body>
+  
+  <script>
+    (()=> {
+      const $input = document.getElementById("input");
+      const $output = document.getElementById("output");
+
+      const $circleButton = document.getElementById("circleButton");
+      const $arrowButton = document.getElementById("arrowButton");
+      const $dashButton = document.getElementById("dashButton");
+
+      $circleButton.addEventListener("click", () => addPrefix('circle'));
+      $arrowButton.addEventListener("click", () => addPrefix('arrow'));
+      $dashButton.addEventListener("click", () => addPrefix('dash'));
+
+      const $shortToLongButton = document.getElementById("shortToLongButton");
+      const $longToShortButton = document.getElementById("longToShortButton");
+
+      $shortToLongButton.addEventListener("click", () => reorder(true));
+      $longToShortButton.addEventListener("click", () => reorder(false));
+
+      let data = "";
+      let updated = "";
+
+      $input.addEventListener("blur", (e) => {
+        data = e.currentTarget.value;
+        if(data.length === 0){
+          $output.value = "";
+        }
+      });
+
+      const prefixes = {
+        circle: "•",
+        arrow: "→",
+        dash: "-"
+      };
+
+      function reorder(isAsc) {
+        let source = updated.length > 0 ? updated : data;
+        let lines = source.split("\n");
+        lines.sort((a, b) => {
+          return isAsc ? a.length - b.length : b.length - a.length;
+        });
+
+        $output.value = lines.join("\n");
+      }
+
+      function addPrefix(prefix) {
+        let lines = data.split("\n");
+        const pre = prefixes[prefix];
+        updated = pre + " " + lines.join(`\n${pre} `);
+        $output.value = updated;
+      }
+
+      document.getElementById("clearButton").addEventListener("click", () => {
+        $output.value = "";
+      });
+
+
+      })();
+  </script>
+</html>
